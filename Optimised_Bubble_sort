@@ -1,0 +1,42 @@
+#include<stdio.h>
+
+void bubbleSort(int arr[], int n, int *count)
+{
+    int i,j, swapped,temp;
+    *count =0;
+   for(i=0;i<(n-1);i++){
+       swapped =0;
+        for(j=0;j<(n-i-1);j++)
+        {
+            (*count)++;
+            if(arr[j]>arr[j+1]){
+                temp = arr[j];
+                arr[j]=arr[j+1];
+                arr[j+1] = temp;
+                swapped = 1;
+            }
+        }
+        if(swapped == 0)
+            break;
+    }
+}
+void printArray(int arr[], int n){
+    for(int i=0;i<n;i++)
+        printf("%d, ", arr[i]);
+    printf("\n");
+}
+int main()
+{
+    int arr[50], i,j, n, temp;
+    int count=0;
+    printf("Enter the number of elements in the array: ");
+    scanf("%d",&n);
+    printf("ENter elements: ");
+    for(i=0;i<n;i++)
+        scanf("%d",&arr[i]);
+   
+    bubbleSort(arr, n, &count);
+    printf("\nArray after applying Bubble sort: ");
+    printArray(arr,n);
+    printf("\nThe number of comparison is: %d",count);
+}

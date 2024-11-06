@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct {
+ int value;
+ int originalIndex;
+} Element;
+void swap(Element *a, Element *b) {
+ Element temp = *a;
+ *a = *b;
+ *b = temp;
+}
+int partition(Element arr[], int low, int high) {
+ int pivot = arr[high].value;
+ int i = low - 1;
+ for (int j = low; j < high; j++) {
+ if (arr[j].value < pivot) {
+ i++;
+ swap(&arr[i], &arr[j]);
+ }
+ }
+ swap(&arr[i + 1], &arr[high]);
+ return i + 1;
+}
+void quickSort(Element arr[], int low, int high) {
+ if (low < high) {
+ int pi = partition(arr, low, high);
+ quickSort(arr, low, pi - 1);
+ quickSort(arr, pi + 1, high);
+ }
+}
+void printArray(Element arr[], int size) {
+ for (int i = 0; i < size; i++) {
+ printf("Value: %d, Original Index: %d\n", arr[i].value, arr[i].originalIndex);
+ }
+}
+void checkStability(Element arr[], int size) {
+ int stable = 1;
+ for (int i = 1; i < size; i++) {
+ if (arr[i].value == arr[i - 1].value && arr[i].originalIndex < arr[i - 1].originalIndex) {
+ stable = 0;
+ break;
+ }
+ }
+ if (stable) {
+ printf("QuickSort is stable.\n");
+ } else {
+ printf("QuickSort is not stable.\n");
+ }
+}
+int main() 
+{
+ int size,i;
+ printf("Enter the size of the array:\n");
+ scanf("%d",&size);
+ Element arr[size];
+ printf("Enter the array element with their original index:\n");
+ for(i=0;i<size;i++)
+ {
+ printf("Element:");
+ scanf("%d",&arr[i].value);
+ printf("Original Index:");
+ scanf("%d",&arr[i].originalIndex);
+ }
+ quickSort(arr, 0, size - 1);
+ printf("\nSorted array:\n");
+ printArray(arr, size);
+ checkStability(arr, size);
+ return 0;
+}
